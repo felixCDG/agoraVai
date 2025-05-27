@@ -176,7 +176,7 @@ fun LoginScreens(navegacao: NavHostController?) {
                         Button(
                             onClick = {},
                             colors = ButtonDefaults.buttonColors(Color(0xFF9B5D27)),
-                            modifier = Modifiergit
+                            modifier = Modifier
                                 .width(1000.dp)
 
                         ) {
