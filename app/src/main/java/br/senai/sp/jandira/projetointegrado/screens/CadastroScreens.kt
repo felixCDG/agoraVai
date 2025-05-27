@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -100,7 +101,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
 
                 ) {
                     Text(
-                        text = "CADASTRO",
+                        text = stringResource(R.string.cadastro),
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
@@ -123,7 +124,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                     ) {
 
                         Text(
-                            text = "Nome*",
+                            text = stringResource(R.string.nome),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.White
@@ -138,7 +139,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(7.dp))
                         Text(
-                            text = "Email*",
+                            text =stringResource(R.string.email),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.White
@@ -153,7 +154,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(7.dp))
                         Text(
-                            text = "Senha*",
+                            text =stringResource(R.string.senha),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.White
@@ -168,7 +169,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(7.dp))
                         Text(
-                            text = "Confirma Senha*",
+                            text = stringResource(R.string.confirmasenha),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.White
@@ -183,7 +184,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(7.dp))
                         Text(
-                            text = "Palavra Chave*",
+                            text = stringResource(R.string.palavrachave),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.White
@@ -198,7 +199,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(7.dp))
                         Text(
-                            text = "Idade*",
+                            text = stringResource(R.string.idade),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.White
@@ -213,7 +214,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(7.dp))
                         Text(
-                            text = "CPF*",
+                            text = stringResource(R.string.cpf),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.White
@@ -228,7 +229,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(7.dp))
                         Text(
-                            text = "Contato*",
+                            text = stringResource(R.string.contato),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.White
@@ -243,7 +244,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(7.dp))
                         Text(
-                            text = "Contato reserva*",
+                            text = stringResource(R.string.contatoreserva),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.White
@@ -258,31 +259,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(7.dp))
                         Text(
-                            text = "Estado*",
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 20.sp,
-                            color = Color.White
-                        )
-                        Spacer( modifier = Modifier .height(3.dp))
-                        OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
-                            modifier = Modifier .fillMaxWidth(),
-                            colors = TextFieldDefaults.colors(),
-                            shape = RoundedCornerShape(10.dp),
-                            trailingIcon = {
-                                IconButton(onClick = {}) {
-                                    Icon(
-                                        imageVector = Icons.Default.KeyboardArrowDown,
-                                        contentDescription = "",
-                                        tint = Color.Black
-                                    )
-                                }
-                            }
-                        )
-                        Spacer( modifier = Modifier .height(7.dp))
-                        Text(
-                            text = "Cidade*",
+                            text = stringResource(R.string.estado),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.White
@@ -306,7 +283,31 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(7.dp))
                         Text(
-                            text = "Qual o seu interesse?*",
+                            text = stringResource(R.string.cep),
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 20.sp,
+                            color = Color.White
+                        )
+                        Spacer( modifier = Modifier .height(3.dp))
+                        OutlinedTextField(
+                            value = "",
+                            onValueChange = {},
+                            modifier = Modifier .fillMaxWidth(),
+                            colors = TextFieldDefaults.colors(),
+                            shape = RoundedCornerShape(10.dp),
+                            trailingIcon = {
+                                IconButton(onClick = {}) {
+                                    Icon(
+                                        imageVector = Icons.Default.KeyboardArrowDown,
+                                        contentDescription = "",
+                                        tint = Color.Black
+                                    )
+                                }
+                            }
+                        )
+                        Spacer( modifier = Modifier .height(7.dp))
+                        Text(
+                            text = stringResource(R.string.qualseuinterrese),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.White
@@ -332,7 +333,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                                         contentDescription = ""
                                     )
                                     Text(
-                                        text = "Quero adotar",
+                                        text = stringResource(R.string.qadotar),
                                         fontSize = 15.sp,
                                         modifier = Modifier
                                             .padding(1.dp)
@@ -344,7 +345,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                                         contentDescription = ""
                                     )
                                     Text(
-                                        text = "Quero divulgar",
+                                        text = stringResource(R.string.qdivulga),
                                         fontSize = 15.sp,
                                         modifier = Modifier
                                             .padding(1.dp)
@@ -362,7 +363,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                                         contentDescription = ""
                                     )
                                     Text(
-                                        text = "Quero divulgar",
+                                        text = stringResource(R.string.fazpartedeong),
                                         fontSize = 15.sp,
                                         modifier = Modifier
                                             .padding(1.dp)
@@ -375,7 +376,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
 
                         Spacer( modifier = Modifier .height(7.dp))
                         Text(
-                            text = "Caso faça parte de uma ONG, coloque no espaço abaixo seu site*",
+                            text = stringResource(R.string.sefazpartedeong),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 15.sp,
                             color = Color.White
@@ -388,30 +389,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                             colors = TextFieldDefaults.colors(),
                             shape = RoundedCornerShape(10.dp),
                         )
-                        Spacer( modifier = Modifier .height(7.dp))
-                        Text(
-                            text = "Preferencia de Animal*",
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 20.sp,
-                            color = Color.White
-                        )
-                        Spacer( modifier = Modifier .height(3.dp))
-                        OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
-                            modifier = Modifier .fillMaxWidth(),
-                            colors = TextFieldDefaults.colors(),
-                            shape = RoundedCornerShape(10.dp),
-                            trailingIcon = {
-                                IconButton(onClick = {}) {
-                                    Icon(
-                                        imageVector = Icons.Default.KeyboardArrowDown,
-                                        contentDescription = "",
-                                        tint = Color.Black
-                                    )
-                                }
-                            }
-                        )
+
                         Spacer( modifier = Modifier .height(27.dp))
                         Card (
                             modifier = Modifier
@@ -421,14 +399,16 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         ){  }
                         Spacer( modifier = Modifier .height(23.dp))
                         Button(
-                            onClick = {},
+                            onClick = {
+                                navegacao?.navigate("login")
+                            },
                             colors = ButtonDefaults.buttonColors(Color(0xFF9B5D27)),
                             modifier = Modifier
                                .width(1000.dp)
 
                         ) {
                             Text(
-                                text = "Finalizar Cadastro",
+                                text = stringResource(R.string.finalizarcadastro),
                                 fontWeight = FontWeight.ExtraBold,
                                 fontSize = 20.sp,
                                 color = Color.White

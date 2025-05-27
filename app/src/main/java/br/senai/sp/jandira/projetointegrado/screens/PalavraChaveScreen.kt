@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -30,9 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,7 +38,7 @@ import androidx.navigation.NavHostController
 import br.senai.sp.jandira.projetointegrado.R
 
 @Composable
-fun LoginScreens(navegacao: NavHostController?) {
+fun PalavraChaveScreen(navegacao: NavHostController?) {
 
     Box(
         modifier = Modifier
@@ -49,7 +46,7 @@ fun LoginScreens(navegacao: NavHostController?) {
 
     ){
         Image(
-            painter = painterResource(R.drawable.fundooo),
+            painter = painterResource(R.drawable.fundu),
             contentDescription = " Backgroud ",
             modifier = Modifier
                 .fillMaxSize(),
@@ -73,9 +70,9 @@ fun LoginScreens(navegacao: NavHostController?) {
                 painter = painterResource(R.drawable.logo),
                 contentDescription = "",
                 modifier = Modifier
-                    .size(270.dp)
+                    .size(320.dp)
             )
-
+            Spacer(modifier = Modifier .height(37.dp))
             Box(
                 modifier = Modifier
                     .width(330.dp)
@@ -89,11 +86,11 @@ fun LoginScreens(navegacao: NavHostController?) {
                         .background(color = Color(0xFF9B5D27), shape = RoundedCornerShape(12.dp))
                         .padding(horizontal = 35.dp, vertical = 8.dp)
                         .zIndex(1f)
-                        .height(25.dp),
+                        .height(22.dp),
 
                     ) {
                     Text(
-                        text = stringResource(R.string.login),
+                        text = stringResource(R.string.palavrachaveT),
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
@@ -114,102 +111,52 @@ fun LoginScreens(navegacao: NavHostController?) {
                             .fillMaxSize()
                             .padding(35.dp)
                     ) {
-
-
                         Text(
-                            text = stringResource(R.string.email),
+                            text = "Digite aqui a Palavra-Chave\n" +
+                                    "    enviada no seu E-mail ",
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.White
                         )
-                        Spacer( modifier = Modifier .height(3.dp))
+                        Spacer(modifier = Modifier .height(16.dp))
+                        Text(
+                            text =stringResource(R.string.palavrachave),
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 18.sp,
+                            color = Color.White
+                        )
+                        Spacer( modifier = Modifier .height(5.dp))
                         OutlinedTextField(
                             value = "",
                             onValueChange = {},
                             modifier = Modifier .fillMaxWidth(),
                             colors = TextFieldDefaults.colors(),
                             shape = RoundedCornerShape(10.dp),
-                        )
-                        Spacer( modifier = Modifier .height(7.dp))
-                        Text(
-                            text = stringResource(R.string.senha),
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 20.sp,
-                            color = Color.White
-                        )
-                        Spacer( modifier = Modifier .height(3.dp))
-                        OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
-                            modifier = Modifier .fillMaxWidth(),
-                            colors = TextFieldDefaults.colors(),
-                            shape = RoundedCornerShape(10.dp),
-                        )
-
-                        Spacer( modifier = Modifier .height(3.dp))
-                        val textoClique2 = buildAnnotatedString {
-                            // Parte clicável: "Cadastre-se"
-                            pushStringAnnotation(tag = "eqsenha", annotation = "eqsenha")
-                            withStyle(style = androidx.compose.ui.text.SpanStyle(color = Color.Black)) {
-                                append(stringResource(R.string.esquecisenha))
-                            }
-                            pop()
-                        }
-                        ClickableText(
-                            text = textoClique2,
-                            modifier = Modifier.padding(horizontal = 10.dp),
-                            onClick = { offset ->
-                                textoClique2.getStringAnnotations(tag = "eqsenha", start = offset, end = offset)
-                                    .firstOrNull()?.let {
-                                        navegacao?.navigate("eqsenha")
-                                    }
-                            }
                         )
                         Spacer( modifier = Modifier .height(23.dp))
                         Card (
                             modifier = Modifier
                                 .height(3.dp)
                                 .fillMaxWidth(),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xff2B5235))
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFF9B5D27))
                         ){  }
                         Spacer( modifier = Modifier .height(19.dp))
                         Button(
-                            onClick = {},
+                            onClick = {
+                                navegacao?.navigate("nvsenha")
+                            },
                             colors = ButtonDefaults.buttonColors(Color(0xFF9B5D27)),
-                            modifier = Modifiergit
+                            modifier = Modifier
                                 .width(1000.dp)
 
                         ) {
                             Text(
-                                text = stringResource(R.string.finalizlogin),
+                                text = stringResource(R.string.next),
                                 fontWeight = FontWeight.ExtraBold,
                                 fontSize = 20.sp,
                                 color = Color.White
                             )
                         }
-                        val textoClique = buildAnnotatedString {
-                            append(stringResource(R.string.naotemconta))
-
-                            // Parte clicável: "Cadastre-se"
-                            pushStringAnnotation(tag = "cadastro", annotation = "cadastro")
-                            withStyle(style = androidx.compose.ui.text.SpanStyle(color = Color.Black)) {
-                                append(stringResource(R.string.cadastrese))
-                            }
-                            pop()
-                        }
-
-                        ClickableText(
-                            text = textoClique,
-                            modifier = Modifier.padding(horizontal = 37.dp),
-                            onClick = { offset ->
-                                textoClique.getStringAnnotations(tag = "cadastro", start = offset, end = offset)
-                                    .firstOrNull()?.let {
-                                        navegacao?.navigate("cadastro")
-                                    }
-                            }
-                        )
-
-
                     }
                 }
             }
@@ -217,10 +164,8 @@ fun LoginScreens(navegacao: NavHostController?) {
     }
 }
 
-
-
 @Preview
 @Composable
-private fun LoginScreensPreview() {
-    LoginScreens(navegacao = null)
+private fun PalavraChaveScreenPreview() {
+    PalavraChaveScreen(navegacao = null)
 }

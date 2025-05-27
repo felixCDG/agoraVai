@@ -12,7 +12,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.projetointegrado.screens.CadastroScreen
+import br.senai.sp.jandira.projetointegrado.screens.EsqueciSenhaScreen
 import br.senai.sp.jandira.projetointegrado.screens.LoginScreens
+import br.senai.sp.jandira.projetointegrado.screens.NovaSenhaScreen
+import br.senai.sp.jandira.projetointegrado.screens.PalavraChaveScreen
 import br.senai.sp.jandira.projetointegrado.ui.theme.ProjetoIntegradoTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,10 +27,13 @@ class MainActivity : ComponentActivity() {
             val navegacao = rememberNavController()
             NavHost(
                 navController = navegacao,
-                startDestination = "Home"
+                startDestination = "login"
             ){
                 composable(route = "login"){ LoginScreens(navegacao) }
                 composable(route = "cadastro"){ CadastroScreen(navegacao) }
+                composable(route = "eqsenha"){ EsqueciSenhaScreen(navegacao) }
+                composable(route = "plchave"){ PalavraChaveScreen(navegacao) }
+                composable(route = "nvsenha"){ NovaSenhaScreen(navegacao) }
             }
 
         }

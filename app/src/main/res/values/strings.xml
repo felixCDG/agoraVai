@@ -1,4 +1,32 @@
 <resources>
     <string name="app_name">ProjetoIntegrado</string>
+    <string name="enviar">Enviar</string>
+    <string name="next">Proximo</string>
     <string name="logar">Entrar</string>
+    <string name="cadastro">CADSTRO</string>
+    <string name="login">LOGIN</string>
+    <string name="nome">Nome*</string>
+    <string name="email">Email*</string>
+    <string name="senha">Senha*</string>
+    <string name="novasenha">Nova senha*</string>
+    <string name="novasenhaT">Nova senha</string>
+    <string name="confirmasenha">Confirma senha*</string>
+    <string name="palavrachave">Palavra-Chave*</string>
+    <string name="palavrachaveT">Palavra-Chave</string>
+    <string name="idade">Idade*</string>
+    <string name="cpf">CPF*</string>
+    <string name="contato">Contato*</string>
+    <string name="contatoreserva">Contato reserva*</string>
+    <string name="estado">Estado*</string>
+    <string name="cep">CEP*</string>
+    <string name="qualseuinterrese">Qual seu interesse*</string>
+    <string name="qadotar">Quero Adator</string>
+    <string name="qdivulga">Quero Divulgar</string>
+    <string name="fazpartedeong">Faco parte de uma ONG</string>
+    <string name="sefazpartedeong">Caso faça parte de uma ONG, coloque no espaço abaixo seu site*</string>
+    <string name="finalizarcadastro">Finalizar Cadastro</string>
+    <string name="finalizlogin">Finalizar login</string>
+    <string name="esquecisenha">Esqueci minha senha</string>
+    <string name="naotemconta">Nao tem conta?</string>
+    <string name="cadastrese">Cadastre-se</string>
 </resources>
