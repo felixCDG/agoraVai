@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.projetointegrado.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,6 +25,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,10 +41,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
+import br.senai.sp.jandira.foodrecipe.model.UserRegister
+import br.senai.sp.jandira.foodrecipe.service.RetrofitFactory
 import br.senai.sp.jandira.projetointegrado.R
+import br.senai.sp.jandira.projetointegrado.model.UserLogin
+import retrofit2.Callback
 
 @Composable
 fun LoginScreens(navegacao: NavHostController?) {
+
+    var emailState = remember {
+        mutableStateOf("")
+    }
+    var senhaState = remember {
+        mutableStateOf("")
+    }
 
     Box(
         modifier = Modifier
@@ -124,8 +138,10 @@ fun LoginScreens(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(3.dp))
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = emailState.value,
+                            onValueChange = {
+                                emailState.value = it
+                            },
                             modifier = Modifier .fillMaxWidth(),
                             colors = TextFieldDefaults.colors(),
                             shape = RoundedCornerShape(10.dp),
@@ -139,8 +155,10 @@ fun LoginScreens(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(3.dp))
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = senhaState.value,
+                            onValueChange = {
+                                senhaState.value = it
+                            },
                             modifier = Modifier .fillMaxWidth(),
                             colors = TextFieldDefaults.colors(),
                             shape = RoundedCornerShape(10.dp),
@@ -174,7 +192,35 @@ fun LoginScreens(navegacao: NavHostController?) {
                         ){  }
                         Spacer( modifier = Modifier .height(19.dp))
                         Button(
-                            onClick = {},
+                            onClick = {
+                                val body = UserLogin(
+                                    email = emailState.value,
+                                    senha = senhaState.value
+                                )
+                                println(body)
+                                val sendUser = RetrofitFactory()
+                                    .getUserLoginService()
+                                    .loginUser(body)
+
+                                sendUser.enqueue(object : Callback<UserLogin> {
+                                    override fun onResponse(call: retrofit2.Call<UserLogin>, response: retrofit2.Response<UserLogin>) {
+                                        if (response.isSuccessful) {
+                                            // Sucesso no cadastro
+                                            Log.i("API", "Usuario logado com sucesso ${response.body()}")
+                                            // Redireciona para tela de login
+                                        } else {
+                                            // Erro no cadastro (ex: e-mail já existente, campos inválidos, etc.)
+                                            Log.e("API", "Erro ao logar: ${response.code()}")
+                                        }
+                                    }
+
+                                    override fun onFailure(call: retrofit2.Call<UserLogin>, t: Throwable) {
+                                        // Erro de rede ou outro imprevisto
+                                        Log.e("API", "Falha na requisição: ${t.message}")
+                                    }
+                                })
+
+                            },
                             colors = ButtonDefaults.buttonColors(Color(0xFF9B5D27)),
                             modifier = Modifier
                                 .width(1000.dp)
