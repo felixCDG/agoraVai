@@ -336,11 +336,121 @@ fun CadastroAnimal(modifier: Modifier = Modifier) {
                             Column (
                                 modifier = Modifier
                                     .fillMaxSize(),
+                                horizontalAlignment = Alignment.CenterHorizontally
 
-                            ){  }
+                            ){
+                                val buttonColors = listOf(
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                )
+                                val labels = listOf(
+                                    "Gentil", "Bravo", "Calmo",
+                                    "Brincalhao", "Medroso",
+                                    "Carente", "Independente"
+                                )
+                                for (row in 0..2) {
+                                    Row(
+                                        horizontalArrangement = Arrangement.SpaceEvenly,
+                                        modifier = Modifier.fillMaxWidth()
+                                    ){
+                                        for (col in 0..1) {
+                                            val index = row * 2 + col
+                                            if (index < labels.size) {
+                                                val isSelected = buttonColors[index]
+                                                Button(
+                                                    onClick = {
+                                                        isSelected.value = !isSelected.value
+                                                    },
+                                                    shape = RoundedCornerShape(30.dp),
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = if (isSelected.value) Color(
+                                                            0xFFC4ECBA
+                                                        ) else Color(0x0F174202)
+                                                    ),
+                                                    modifier = Modifier
+                                                        .padding(4.dp)
+                                                        .height(45.dp)
+                                                ) {
+                                                    Text(text = labels[index], color = Color.Black)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier .height(7.dp))
+                        Text(
+                            text = "Carregue as Imagens do Animal",
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 20.sp,
+                            color = Color.Black
+                        )
+                        Spacer( modifier = Modifier .height(5.dp))
+                        Card (
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF))
+                        ){
+                            Column(modifier = Modifier .fillMaxSize(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Image(
+                                    painter = painterResource(R.drawable.img),
+                                    contentDescription = "",
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier .height(7.dp))
+                        Text(
+                            text = "Sobre o Animal",
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 20.sp,
+                            color = Color.Black
+                        )
+                        Spacer( modifier = Modifier .height(5.dp))
+                        OutlinedTextField(
+                            value = "",
+                            onValueChange = {},
+                            modifier = Modifier .fillMaxWidth(),
+                            shape = RoundedCornerShape(10.dp),
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
+                                focusedBorderColor = Color.DarkGray,
+                                unfocusedBorderColor = Color.Gray,
+
+                                )
+                        )
+                        Spacer( modifier = Modifier .height(27.dp))
+                        Card (
+                            modifier = Modifier
+                                .height(3.dp)
+                                .fillMaxWidth(),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFF9B5D27))
+                        ){  }
+                        Spacer( modifier = Modifier .height(23.dp))
+                        Button(
+                            onClick = {},
+                            colors = ButtonDefaults.buttonColors(Color(0xFF9B5D27)),
+                            modifier = Modifier
+                                .width(1000.dp)
+
+                        ) {
+                            Text(
+                                text = stringResource(R.string.finalizarcadastro),
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 20.sp,
+                                color = Color.White
+                            )
                         }
                     }
-
                 }
             }
         }
