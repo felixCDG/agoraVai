@@ -53,6 +53,7 @@ import  br.senai.sp.jandira.projetointegrado.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.log
 
 @Composable
 fun CadastroScreen(navegacao: NavHostController?) {
@@ -79,6 +80,10 @@ fun CadastroScreen(navegacao: NavHostController?) {
     var idaddressState = remember {
         mutableStateOf("")
     }
+    var contatoState = remember {
+        mutableStateOf("")
+    }
+
 
     Box(
         modifier = Modifier
@@ -86,7 +91,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
 
     ){
         Image(
-            painter = painterResource(R.drawable.fundo),
+            painter = painterResource(R.drawable.venezuela),
             contentDescription = " Backgroud ",
             modifier = Modifier
                 .fillMaxSize(),
@@ -262,23 +267,10 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(3.dp))
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
-                            modifier = Modifier .fillMaxWidth(),
-                            colors = TextFieldDefaults.colors(),
-                            shape = RoundedCornerShape(10.dp),
-                        )
-                        Spacer( modifier = Modifier .height(7.dp))
-                        Text(
-                            text = stringResource(R.string.contatoreserva),
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 20.sp,
-                            color = Color.White
-                        )
-                        Spacer( modifier = Modifier .height(3.dp))
-                        OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = contatoState.value,
+                            onValueChange = {
+                                contatoState.value = it
+                            },
                             modifier = Modifier .fillMaxWidth(),
                             colors = TextFieldDefaults.colors(),
                             shape = RoundedCornerShape(10.dp),
@@ -435,6 +427,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                                     senha = passwordState.value,
                                     cpf = cpfState.value,
                                     palavraChave = keywordState.value,
+                                    contato = contatoState.value,
                                     dataNascimento = databirthState.value,
                                     idEndereco = idaddressState.value.toIntOrNull() ?: 0
                                 )
@@ -449,17 +442,18 @@ fun CadastroScreen(navegacao: NavHostController?) {
                                             // Sucesso no cadastro
                                             Log.i("API", "Usuario cadastrado com sucesso ${response.body()}")
                                              // Redireciona para tela de login
-                                        } else {
-                                            // Erro no cadastro (ex: e-mail já existente, campos inválidos, etc.)
-                                             Log.e("API", "Erro ao cadastrar: ${response.code()}")
+                                            } else {
+                                                // Erro no cadastro (ex: e-mail já existente, campos inválidos, etc.)
+                                                 Log.e("API", "Erro ao cadastrar: ${response.code()}")
+                                            }
                                         }
-                                    }
 
                                     override fun onFailure(call: retrofit2.Call<UserRegister>, t: Throwable) {
                                         // Erro de rede ou outro imprevisto
                                         Log.e("API", "Falha na requisição: ${t.message}")
                                     }
                                 })
+
                                 navegacao?.navigate("login")
                             },
 

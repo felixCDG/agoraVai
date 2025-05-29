@@ -72,4 +72,7 @@ dependencies {
     //Coil- Image
     implementation(libs.coil.compose)
 
+    implementation("androidx.compose.material3:material3:1.2.1")
+
+
 }

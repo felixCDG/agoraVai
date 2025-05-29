@@ -3,7 +3,7 @@
     <string name="enviar">Enviar</string>
     <string name="next">Proximo</string>
     <string name="logar">Entrar</string>
-    <string name="cadastro">CADSTRO</string>
+    <string name="cadastro">CADASTRO</string>
     <string name="login">LOGIN</string>
     <string name="nome">Nome*</string>
     <string name="email">Email*</string>
@@ -29,4 +29,11 @@
     <string name="esquecisenha">Esqueci minha senha</string>
     <string name="naotemconta">Nao tem conta?</string>
     <string name="cadastrese">Cadastre-se</string>
+    <string name="cadastroanimal">CADASTRO ANIMAL</string>
+    <string name="nameanimal">Nome do Animal*</string>
+    <string name="especi">Espécie*</string>
+    <string name="sexo">Sexo*</string>
+    <string name="porte">Porte*</string>
+    <string name="cidade">Cidade*</string>
+    <string name="saude">Saude*</string>
 </resources>
