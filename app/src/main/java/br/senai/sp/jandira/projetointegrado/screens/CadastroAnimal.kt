@@ -393,6 +393,28 @@ fun CadastroAnimal(navegacao: NavHostController?) {
 
                                 )
                         )
+                        Spacer(modifier = Modifier .height(7.dp))
+                        Text(
+                            text = "Status do Animal",
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 20.sp,
+                            color = Color.Black
+                        )
+                        Spacer( modifier = Modifier .height(5.dp))
+                        OutlinedTextField(
+                            value = idstatusState.value,
+                            onValueChange = {
+                                idstatusState.value = it
+                            },
+                            modifier = Modifier .fillMaxWidth(),
+                            shape = RoundedCornerShape(10.dp),
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
+                                focusedBorderColor = Color.DarkGray,
+                                unfocusedBorderColor = Color.Gray,
+
+                                )
+                        )
                         Spacer( modifier = Modifier .height(27.dp))
                         Card (
                             modifier = Modifier
@@ -416,6 +438,7 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                                     idEspecie =  idespecieState.value.toIntOrNull() ?: 0,
                                     idSaude = idsaudeState.value.toIntOrNull() ?: 0
                                 )
+                                println(body)
 
                                 val sendPet = RetrofitFactory()
                                     .getPetRegisterService()
