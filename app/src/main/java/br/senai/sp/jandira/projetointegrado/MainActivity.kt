@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.projetointegrado.screens.CadastroAnimal
 import br.senai.sp.jandira.projetointegrado.screens.CadastroScreen
 import br.senai.sp.jandira.projetointegrado.screens.EsqueciSenhaScreen
+import br.senai.sp.jandira.projetointegrado.screens.HomeScreen
 import br.senai.sp.jandira.projetointegrado.screens.LoginScreens
 import br.senai.sp.jandira.projetointegrado.screens.NovaSenhaScreen
 import br.senai.sp.jandira.projetointegrado.screens.PalavraChaveScreen
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity() {
                 composable(route = "plchave"){ PalavraChaveScreen(navegacao) }
                 composable(route = "nvsenha"){ NovaSenhaScreen(navegacao) }
                 composable(route = "cadastropet"){ CadastroAnimal(navegacao) }
+                composable(route = "home"){ HomeScreen(navegacao) }
             }
 
         }
