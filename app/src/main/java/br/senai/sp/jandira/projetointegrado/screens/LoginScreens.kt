@@ -193,7 +193,6 @@ fun LoginScreens(navegacao: NavHostController?) {
                         Spacer( modifier = Modifier .height(19.dp))
                         Button(
                             onClick = {
-                                navegacao?.navigate("home")
                                 val body = UserLogin(
                                     email = emailState.value,
                                     senha = senhaState.value
@@ -208,6 +207,7 @@ fun LoginScreens(navegacao: NavHostController?) {
                                         if (response.isSuccessful) {
                                             // Sucesso no cadastro
                                             Log.i("API", "Usuario logado com sucesso ${response.body()}")
+                                            navegacao?.navigate("home")
                                             // Redireciona para tela de login
                                         } else {
                                             // Erro no cadastro (ex: e-mail já existente, campos inválidos, etc.)

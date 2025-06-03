@@ -420,17 +420,18 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         Spacer( modifier = Modifier .height(23.dp))
                         Button(
                             onClick = {
-                                navegacao?.navigate("cadastropet")
+
                                 val body = UserRegister(
                                     nome = nameState.value,
                                     email = emailState.value,
                                     senha = passwordState.value,
                                     cpf = cpfState.value,
                                     palavraChave = keywordState.value,
-                                    contato = contatoState.value,
+                                    telefone = contatoState.value,
                                     dataNascimento = databirthState.value,
                                     idEndereco = idaddressState.value.toIntOrNull() ?: 0
                                 )
+                                println(body)
 
                                 val sendUser = RetrofitFactory()
                                     .getUserRegisterService()
@@ -454,7 +455,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                                     }
                                 })
 
-                                navegacao?.navigate("cadastropet")
+
                             },
 
 
