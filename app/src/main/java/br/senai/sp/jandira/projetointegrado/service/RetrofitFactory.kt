@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.foodrecipe.service
 
+import br.senai.sp.jandira.projetointegrado.service.PetRegisterService
 import br.senai.sp.jandira.projetointegrado.service.UserLoginService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -22,6 +23,11 @@ class RetrofitFactory {
     fun getUserLoginService() : UserLoginService{
         return RETROFIT_FACTORY
             .create(UserLoginService::class.java)
+    }
+
+    fun getPetRegisterService() : PetRegisterService{
+        return RETROFIT_FACTORY
+            .create(PetRegisterService::class.java)
     }
 
 }

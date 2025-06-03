@@ -13,7 +13,7 @@
     <string name="confirmasenha">Confirma senha*</string>
     <string name="palavrachave">Palavra-Chave*</string>
     <string name="palavrachaveT">Palavra-Chave</string>
-    <string name="idade">Idade*</string>
+    <string name="idade">Data de Nascimento*</string>
     <string name="cpf">CPF*</string>
     <string name="contato">Contato*</string>
     <string name="contatoreserva">Contato reserva*</string>

@@ -1,7 +1,6 @@
 package br.senai.sp.jandira.projetointegrado.screens
 
 import android.util.Log
-import android.widget.ImageButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,13 +21,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.PersonPin
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxColors
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -47,17 +43,58 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.senai.sp.jandira.foodrecipe.model.UserRegister
+import androidx.navigation.NavHostController
 import br.senai.sp.jandira.foodrecipe.service.RetrofitFactory
 import br.senai.sp.jandira.projetointegrado.R
+import br.senai.sp.jandira.projetointegrado.model.IdButtons
+import br.senai.sp.jandira.projetointegrado.model.PetRegister
+import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CadastroAnimal(modifier: Modifier = Modifier) {
+fun CadastroAnimal(navegacao: NavHostController?) {
     val vacinado = false
     val vermifugado = false
     val castrado = false
+
+    var nameAnimalState = remember {
+        mutableStateOf("")
+    }
+    var dateState = remember {
+        mutableStateOf("")
+    }
+    var pictureState = remember {
+        mutableStateOf("")
+    }
+    var necessidadeState = remember {
+        mutableStateOf("")
+    }
+    var idporteState = remember {
+        mutableStateOf("")
+    }
+    var idstatusState = remember {
+        mutableStateOf("")
+    }
+    var idracaState = remember {
+        mutableStateOf("")
+    }
+    var idsexoState = remember {
+        mutableStateOf("")
+    }
+    var idtemperamentoState = remember {
+        mutableStateOf("")
+    }
+    var idespecieState = remember {
+        mutableStateOf("")
+    }
+    var idsaudeState = remember {
+        mutableStateOf("")
+    }
+
+
+
 
     Box(
         modifier = Modifier
@@ -144,8 +181,10 @@ fun CadastroAnimal(modifier: Modifier = Modifier) {
                         )
                         Spacer( modifier = Modifier .height(5.dp))
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = nameAnimalState.value,
+                            onValueChange = {
+                                nameAnimalState.value = it
+                            },
                             modifier = Modifier .fillMaxWidth(),
                             shape = RoundedCornerShape(10.dp),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -164,8 +203,10 @@ fun CadastroAnimal(modifier: Modifier = Modifier) {
                         )
                         Spacer( modifier = Modifier .height(5.dp))
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = idespecieState.value,
+                            onValueChange = {
+                                idespecieState.value = it
+                            },
                             modifier = Modifier .fillMaxWidth(),
                             shape = RoundedCornerShape(10.dp),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -184,8 +225,32 @@ fun CadastroAnimal(modifier: Modifier = Modifier) {
                         )
                         Spacer( modifier = Modifier .height(5.dp))
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = idsexoState.value,
+                            onValueChange = {
+                                idsexoState.value = it
+                            },
+                            modifier = Modifier .fillMaxWidth(),
+                            shape = RoundedCornerShape(10.dp),
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
+                                focusedBorderColor = Color.DarkGray,
+                                unfocusedBorderColor = Color.Gray,
+
+                                )
+                        )
+                        Spacer(modifier = Modifier .height(7.dp))
+                        Text(
+                            text = "necessidade",
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 20.sp,
+                            color = Color.Black
+                        )
+                        Spacer( modifier = Modifier .height(5.dp))
+                        OutlinedTextField(
+                            value = necessidadeState.value,
+                            onValueChange = {
+                                necessidadeState.value = it
+                            },
                             modifier = Modifier .fillMaxWidth(),
                             shape = RoundedCornerShape(10.dp),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -204,8 +269,10 @@ fun CadastroAnimal(modifier: Modifier = Modifier) {
                         )
                         Spacer( modifier = Modifier .height(5.dp))
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = idporteState.value,
+                            onValueChange = {
+                                idporteState.value = it
+                            },
                             modifier = Modifier .fillMaxWidth(),
                             shape = RoundedCornerShape(10.dp),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -224,8 +291,10 @@ fun CadastroAnimal(modifier: Modifier = Modifier) {
                         )
                         Spacer( modifier = Modifier .height(5.dp))
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = dateState.value,
+                            onValueChange = {
+                                dateState.value = it
+                            },
                             modifier = Modifier .fillMaxWidth(),
                             shape = RoundedCornerShape(10.dp),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -237,37 +306,18 @@ fun CadastroAnimal(modifier: Modifier = Modifier) {
                         )
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
-                            text = stringResource(R.string.estado),
+                            text = stringResource(R.string.saude),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.Black
                         )
                         Spacer( modifier = Modifier .height(5.dp))
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
-                            modifier = Modifier .fillMaxWidth() ,
-                            shape = RoundedCornerShape(10.dp),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
-                                focusedBorderColor = Color.DarkGray,
-                                unfocusedBorderColor = Color.Gray,
-
-                            )
-
-                        )
-                        Spacer(modifier = Modifier .height(7.dp))
-                        Text(
-                            text = stringResource(R.string.cidade),
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 20.sp,
-                            color = Color.Black
-                        )
-                        Spacer( modifier = Modifier .height(5.dp))
-                        OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
-                            modifier = Modifier .fillMaxWidth() ,
+                            value = idsaudeState.value,
+                            onValueChange = {
+                                idsaudeState.value = it
+                            },
+                            modifier = Modifier .fillMaxWidth(),
                             shape = RoundedCornerShape(10.dp),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
                                 containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
@@ -275,115 +325,30 @@ fun CadastroAnimal(modifier: Modifier = Modifier) {
                                 unfocusedBorderColor = Color.Gray,
 
                                 )
-
                         )
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
-                            text = stringResource(R.string.saude),
+                            text = "Temperamento",
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.Black
                         )
                         Spacer( modifier = Modifier .height(5.dp))
-                        Card (
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(150.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF))
-                        ){
-                            Column(
+                        OutlinedTextField(
+                            value = idtemperamentoState.value,
+                            onValueChange = {
+                                idtemperamentoState.value = it
+                            },
+                            modifier = Modifier .fillMaxWidth(),
+                            shape = RoundedCornerShape(10.dp),
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
+                                focusedBorderColor = Color.DarkGray,
+                                unfocusedBorderColor = Color.Gray,
 
-                            ) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Checkbox(
-                                        checked = true,
-                                        onCheckedChange = {}
-                                    )
-                                    Text(text = "vacinado", fontSize = 18.sp)
-                                }
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Checkbox(
-                                        checked = true,
-                                        onCheckedChange = {},
-
-                                    )
-                                    Text(text = "vermífugado", fontSize = 18.sp)
-                                }
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Checkbox(
-                                        checked = true,
-                                        onCheckedChange = {},
-
-                                    )
-                                    Text(text = "castrado", fontSize = 18.sp)
-                                }
-                            }
-                        }
-                        Spacer(modifier = Modifier .height(7.dp))
-                        Text(
-                            text = stringResource(R.string.saude),
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 20.sp,
-                            color = Color.Black
+                                )
                         )
-                        Spacer( modifier = Modifier .height(5.dp))
-                        Card (
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(150.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF))
-                        ){
-                            Column (
-                                modifier = Modifier
-                                    .fillMaxSize(),
-                                horizontalAlignment = Alignment.CenterHorizontally
 
-                            ){
-                                val buttonColors = listOf(
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                )
-                                val labels = listOf(
-                                    "Gentil", "Bravo", "Calmo",
-                                    "Brincalhao", "Medroso",
-                                    "Carente", "Independente"
-                                )
-                                for (row in 0..2) {
-                                    Row(
-                                        horizontalArrangement = Arrangement.SpaceEvenly,
-                                        modifier = Modifier.fillMaxWidth()
-                                    ){
-                                        for (col in 0..1) {
-                                            val index = row * 2 + col
-                                            if (index < labels.size) {
-                                                val isSelected = buttonColors[index]
-                                                Button(
-                                                    onClick = {
-                                                        isSelected.value = !isSelected.value
-                                                    },
-                                                    shape = RoundedCornerShape(30.dp),
-                                                    colors = ButtonDefaults.buttonColors(
-                                                        containerColor = if (isSelected.value) Color(
-                                                            0xFFC4ECBA
-                                                        ) else Color(0x0F174202)
-                                                    ),
-                                                    modifier = Modifier
-                                                        .padding(4.dp)
-                                                        .height(45.dp)
-                                                ) {
-                                                    Text(text = labels[index], color = Color.Black)
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
                             text = "Carregue as Imagens do Animal",
@@ -392,33 +357,33 @@ fun CadastroAnimal(modifier: Modifier = Modifier) {
                             color = Color.Black
                         )
                         Spacer( modifier = Modifier .height(5.dp))
-                        Card (
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF))
-                        ){
-                            Column(modifier = Modifier .fillMaxSize(),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Image(
-                                    painter = painterResource(R.drawable.img),
-                                    contentDescription = "",
+                        OutlinedTextField(
+                            value = pictureState.value,
+                            onValueChange = {
+                                pictureState.value = it
+                            },
+                            modifier = Modifier .fillMaxWidth(),
+                            shape = RoundedCornerShape(10.dp),
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
+                                focusedBorderColor = Color.DarkGray,
+                                unfocusedBorderColor = Color.Gray,
+
                                 )
-                            }
-                        }
+                        )
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
-                            text = "Sobre o Animal",
+                            text = "Raça do Animal",
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.Black
                         )
                         Spacer( modifier = Modifier .height(5.dp))
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = idracaState.value,
+                            onValueChange = {
+                                idracaState.value = it
+                            },
                             modifier = Modifier .fillMaxWidth(),
                             shape = RoundedCornerShape(10.dp),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -437,7 +402,42 @@ fun CadastroAnimal(modifier: Modifier = Modifier) {
                         ){  }
                         Spacer( modifier = Modifier .height(23.dp))
                         Button(
-                            onClick = {},
+                            onClick = {
+                                val body = PetRegister(
+                                    nome = nameAnimalState.value,
+                                    dataNascimento = dateState.value,
+                                    foto = pictureState.value,
+                                    necessidades = necessidadeState.value,
+                                    idPorte = idporteState.value.toIntOrNull() ?: 0,
+                                    idStatus = idstatusState.value.toIntOrNull() ?: 0,
+                                    idRaca = idracaState.value.toIntOrNull() ?: 0,
+                                    idSexo = idsexoState.value.toIntOrNull() ?: 0,
+                                    idTemperamento = idtemperamentoState.value.toIntOrNull() ?: 0,
+                                    idEspecie =  idespecieState.value.toIntOrNull() ?: 0,
+                                    idSaude = idsaudeState.value.toIntOrNull() ?: 0
+                                )
+
+                                val sendPet = RetrofitFactory()
+                                    .getPetRegisterService()
+                                    .cadastroPet(body)
+
+                                sendPet.enqueue(object : Callback<PetRegister>{
+                                    override fun onResponse (call: Call<PetRegister>, response: Response<PetRegister>){
+                                        if (response.isSuccessful){
+
+                                            Log.i("API", "Pet cadastrado com sucesso ${response.body()}")
+                                        }else{
+                                            Log.e("API", "Erro ao cadastrar: ${response.code()}")
+                                        }
+                                    }
+
+                                    override  fun onFailure(call: Call<PetRegister>, t: Throwable){
+                                        Log.e("API", "Falha na requisição: ${t.message}")
+                                    }
+
+                                })
+
+                            },
                             colors = ButtonDefaults.buttonColors(Color(0xFF9B5D27)),
                             modifier = Modifier
                                 .width(1000.dp)
@@ -461,5 +461,5 @@ fun CadastroAnimal(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun CadastroAnimalPreview() {
-    CadastroAnimal()
+    CadastroAnimal(navegacao = null)
 }

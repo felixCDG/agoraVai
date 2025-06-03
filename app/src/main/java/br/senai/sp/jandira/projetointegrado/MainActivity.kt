@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.projetointegrado.screens.CadastroAnimal
 import br.senai.sp.jandira.projetointegrado.screens.CadastroScreen
 import br.senai.sp.jandira.projetointegrado.screens.EsqueciSenhaScreen
 import br.senai.sp.jandira.projetointegrado.screens.LoginScreens
@@ -34,6 +35,7 @@ class MainActivity : ComponentActivity() {
                 composable(route = "eqsenha"){ EsqueciSenhaScreen(navegacao) }
                 composable(route = "plchave"){ PalavraChaveScreen(navegacao) }
                 composable(route = "nvsenha"){ NovaSenhaScreen(navegacao) }
+                composable(route = "cadastropet"){ CadastroAnimal(navegacao) }
             }
 
         }

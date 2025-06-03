@@ -420,7 +420,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         Spacer( modifier = Modifier .height(23.dp))
                         Button(
                             onClick = {
-                                navegacao?.navigate("login")
+                                navegacao?.navigate("cadastropet")
                                 val body = UserRegister(
                                     nome = nameState.value,
                                     email = emailState.value,
@@ -454,7 +454,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                                     }
                                 })
 
-                                navegacao?.navigate("login")
+                                navegacao?.navigate("cadastropet")
                             },
 
 
