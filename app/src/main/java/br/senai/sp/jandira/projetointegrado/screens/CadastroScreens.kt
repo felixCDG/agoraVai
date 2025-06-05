@@ -454,7 +454,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
         }
     }
 
-private fun <T> Call<T>.enqueue(any: Any) {
+fun <T> Call<T>.enqueue(any: Any) {
 
 }
 

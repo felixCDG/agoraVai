@@ -65,7 +65,6 @@ import retrofit2.Response
 @Composable
 fun HomeScreen(navegacao: NavHostController?) {
 
-    //Variável que guarda a lista de personagens
     //devolvidas pela API
     var PetList = remember {
         mutableStateOf(listOf<Pets>())
@@ -79,7 +78,7 @@ fun HomeScreen(navegacao: NavHostController?) {
     //Enviar a requisição
     callPet.enqueue(object : Callback<ResultPet>{
         override fun onResponse(p0: Call<ResultPet>, p1: Response<ResultPet>) {
-            PetList.value = p1.body()!!.results
+            PetList.value = p1.body()!!.pets
         }
 
         override fun onFailure(p0: Call<ResultPet>, p1: Throwable) {
@@ -238,8 +237,8 @@ fun HomeScreen(navegacao: NavHostController?) {
                                 content = {
                                     items(PetList.value){
                                         CardPet(
-                                            name = it.name,
-                                            foto = it.foto
+                                            foto = it.foto,
+                                            name = it.nome
                                         )
                                     }
                                 }
