@@ -363,6 +363,28 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                         )
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
+                            text = stringResource(R.string.cep),
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 20.sp,
+                            color = Color.Black
+                        )
+                        Spacer( modifier = Modifier .height(5.dp))
+                        OutlinedTextField(
+                            value = dateState.value,
+                            onValueChange = {
+                                dateState.value = it
+                            },
+                            modifier = Modifier .fillMaxWidth(),
+                            shape = RoundedCornerShape(10.dp),
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
+                                focusedBorderColor = Color.DarkGray,
+                                unfocusedBorderColor = Color.Gray,
+
+                                )
+                        )
+                        Spacer(modifier = Modifier .height(7.dp))
+                        Text(
                             text = stringResource(R.string.saude),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,

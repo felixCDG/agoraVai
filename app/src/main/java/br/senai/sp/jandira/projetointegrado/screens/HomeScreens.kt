@@ -81,9 +81,11 @@ fun HomeScreen(navegacao: NavHostController?) {
             PetList.value = p1.body()!!.pets
         }
 
-        override fun onFailure(p0: Call<ResultPet>, p1: Throwable) {
-            TODO("Not yet implemented")
+        override fun onFailure(call: Call<ResultPet>, t: Throwable) {
+            Log.e("HomeScreen", "Erro na requisição: ${t.message}")
+            // Se quiser, pode mostrar algo na UI, mas como é Compose, talvez precise usar um estado para isso.
         }
+
 
     })
 
