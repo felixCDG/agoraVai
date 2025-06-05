@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -54,6 +55,8 @@ import br.senai.sp.jandira.foodrecipe.service.RetrofitFactory
 import br.senai.sp.jandira.projetointegrado.R
 import br.senai.sp.jandira.projetointegrado.model.IdButtons
 import br.senai.sp.jandira.projetointegrado.model.PetRegister
+import br.senai.sp.jandira.projetointegrado.model.Pets
+import br.senai.sp.jandira.projetointegrado.model.ResultPet
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -61,6 +64,30 @@ import retrofit2.Response
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navegacao: NavHostController?) {
+
+    //Variável que guarda a lista de personagens
+    //devolvidas pela API
+    var PetList = remember {
+        mutableStateOf(listOf<Pets>())
+    }
+
+    // Obter o dados da Retrofit
+    var callPet = RetrofitFactory()
+        .getPetService()
+        .listAll()
+
+    //Enviar a requisição
+    callPet.enqueue(object : Callback<ResultPet>{
+        override fun onResponse(p0: Call<ResultPet>, p1: Response<ResultPet>) {
+            PetList.value = p1.body()!!.results
+        }
+
+        override fun onFailure(p0: Call<ResultPet>, p1: Throwable) {
+            TODO("Not yet implemented")
+        }
+
+    })
+
 
     Box(
         modifier = Modifier
@@ -209,60 +236,10 @@ fun HomeScreen(navegacao: NavHostController?) {
                                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                                 verticalArrangement = Arrangement.spacedBy(12.dp),
                                 content = {
-                                    item {
+                                    items(PetList.value){
                                         CardPet(
-                                            image = "URL",
-                                            name = "Felipe",
-                                            local = "Santo Antonio - Sp"
-                                        )
-                                    }
-                                    item {
-                                        CardPet(
-                                            image = "URL",
-                                            name = "Felipe",
-                                            local = "Santo Antonio - Sp"
-                                        )
-                                    }
-                                    item {
-                                        CardPet(
-                                            image = "URL",
-                                            name = "Felipe",
-                                            local = "Santo Antonio - Sp"
-                                        )
-                                    }
-                                    item {
-                                        CardPet(
-                                            image = "URL",
-                                            name = "Felipe",
-                                            local = "Santo Antonio - Sp"
-                                        )
-                                    }
-                                    item {
-                                        CardPet(
-                                            image = "URL",
-                                            name = "Felipe",
-                                            local = "Santo Antonio - Sp"
-                                        )
-                                    }
-                                    item {
-                                        CardPet(
-                                            image = "URL",
-                                            name = "Felipe",
-                                            local = "Santo Antonio - Sp"
-                                        )
-                                    }
-                                    item {
-                                        CardPet(
-                                            image = "URL",
-                                            name = "Felipe",
-                                            local = "Santo Antonio - Sp"
-                                        )
-                                    }
-                                    item {
-                                        CardPet(
-                                            image = "URL",
-                                            name = "Felipe",
-                                            local = "Santo Antonio - Sp"
+                                            name = it.name,
+                                            foto = it.foto
                                         )
                                     }
                                 }

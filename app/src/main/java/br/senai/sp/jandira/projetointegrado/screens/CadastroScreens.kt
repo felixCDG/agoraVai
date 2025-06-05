@@ -277,32 +277,6 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(7.dp))
                         Text(
-                            text = stringResource(R.string.estado),
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 20.sp,
-                            color = Color.White
-                        )
-                        Spacer( modifier = Modifier .height(3.dp))
-                        OutlinedTextField(
-                            value = idaddressState.value,
-                            onValueChange = {
-                                idaddressState.value = it
-                            },
-                            modifier = Modifier .fillMaxWidth(),
-                            colors = TextFieldDefaults.colors(),
-                            shape = RoundedCornerShape(10.dp),
-                            trailingIcon = {
-                                IconButton(onClick = {}) {
-                                    Icon(
-                                        imageVector = Icons.Default.KeyboardArrowDown,
-                                        contentDescription = "",
-                                        tint = Color.Black
-                                    )
-                                }
-                            }
-                        )
-                        Spacer( modifier = Modifier .height(7.dp))
-                        Text(
                             text = stringResource(R.string.cep),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,

@@ -27,9 +27,8 @@ import coil.compose.AsyncImage
 @Composable
 fun CardPet(
 
-    image: String = "URL da imagem",
+    foto: String = "URL da imagem",
     name: String = "Nome do Pet",
-    local: String = "Local do Pet"
 
 ) {
     Card (
@@ -54,7 +53,7 @@ fun CardPet(
 
             ) {
                 AsyncImage(
-                    model = image,
+                    model = foto,
                     contentDescription = ""
                 )
             }
@@ -77,11 +76,6 @@ fun CardPet(
                     Text(
                         text = "localização: ",
                         fontSize = 10.sp
-                    )
-                    Text(
-                        text = local,
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.ExtraBold
                     )
                 }
             }

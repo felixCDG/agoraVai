@@ -14,6 +14,7 @@ data class PetRegister(
     @SerializedName("id_sexo") var idSexo: Int = 0,
     @SerializedName("id_temperamento") var idTemperamento: Int = 0,
     @SerializedName("id_especie") var idEspecie: Int = 0,
-    @SerializedName("id_saude") var idSaude: Int = 0,
+    @SerializedName("id_saude") var idSaude: List<Int> = listOf(),
+
 
 )

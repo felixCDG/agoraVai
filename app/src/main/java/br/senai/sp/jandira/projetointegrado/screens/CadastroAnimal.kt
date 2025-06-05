@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.projetointegrado.screens
 
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +19,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.PersonPin
 import androidx.compose.material3.Button
@@ -55,9 +57,10 @@ import retrofit2.Response
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CadastroAnimal(navegacao: NavHostController?) {
-    val vacinado = false
-    val vermifugado = false
-    val castrado = false
+
+    var isVacinado = remember { mutableStateOf(false) }
+    var isVermifugado = remember { mutableStateOf(false) }
+    var isCastrado = remember { mutableStateOf(false) }
 
     var nameAnimalState = remember {
         mutableStateOf("")
@@ -214,7 +217,16 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                                 focusedBorderColor = Color.DarkGray,
                                 unfocusedBorderColor = Color.Gray,
 
-                                )
+                                ),
+                            trailingIcon = {
+                                IconButton(onClick = {}) {
+                                    Icon(
+                                        imageVector = Icons.Default.KeyboardArrowDown,
+                                        contentDescription = "",
+                                        tint = Color.Black
+                                    )
+                                }
+                            }
                         )
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
@@ -224,20 +236,56 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                             color = Color.Black
                         )
                         Spacer( modifier = Modifier .height(5.dp))
-                        OutlinedTextField(
-                            value = idsexoState.value,
-                            onValueChange = {
-                                idsexoState.value = it
-                            },
-                            modifier = Modifier .fillMaxWidth(),
-                            shape = RoundedCornerShape(10.dp),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
-                                focusedBorderColor = Color.DarkGray,
-                                unfocusedBorderColor = Color.Gray,
-
+                        Card (
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF)),
+                            border = BorderStroke(1.dp, color = Color(0xFF939393))
+                        ){
+                            Column (
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(6.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ){
+                                val buttonColors = listOf(
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
                                 )
-                        )
+                                val labels = listOf(
+                                    "Macho", "Femia",
+                                )
+                                for (row in 0..2) {
+                                    Row(
+                                        horizontalArrangement = Arrangement.SpaceEvenly,
+                                        modifier = Modifier.fillMaxWidth()
+                                    ){
+                                        for (col in 0..1) {
+                                            val index = row * 2 + col
+                                            if (index < labels.size) {
+                                                val isSelected = buttonColors[index]
+                                                Button(
+                                                    onClick = {
+                                                        isSelected.value = !isSelected.value
+                                                    },
+                                                    shape = RoundedCornerShape(30.dp),
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = if (isSelected.value) Color(
+                                                            0xFFC4ECBA
+                                                        ) else Color(0x0F174202)
+                                                    ),
+                                                    modifier = Modifier
+                                                        .padding(4.dp)
+                                                        .height(45.dp)
+                                                ) {
+                                                    Text(text = labels[index], color = Color.Black)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
                             text = "necessidade",
@@ -280,7 +328,16 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                                 focusedBorderColor = Color.DarkGray,
                                 unfocusedBorderColor = Color.Gray,
 
-                                )
+                                ),
+                            trailingIcon = {
+                                IconButton(onClick = {}) {
+                                    Icon(
+                                        imageVector = Icons.Default.KeyboardArrowDown,
+                                        contentDescription = "",
+                                        tint = Color.Black
+                                    )
+                                }
+                            }
                         )
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
@@ -312,20 +369,40 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                             color = Color.Black
                         )
                         Spacer( modifier = Modifier .height(5.dp))
-                        OutlinedTextField(
-                            value = idsaudeState.value,
-                            onValueChange = {
-                                idsaudeState.value = it
-                            },
-                            modifier = Modifier .fillMaxWidth(),
-                            shape = RoundedCornerShape(10.dp),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
-                                focusedBorderColor = Color.DarkGray,
-                                unfocusedBorderColor = Color.Gray,
+                        Card (
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(150.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF))
+                        ){
+                            Column(
 
-                                )
-                        )
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Checkbox(
+                                        checked = isVacinado.value,
+                                        onCheckedChange = { isVacinado.value = it }
+                                    )
+                                    Text(text = "vacinado", fontSize = 18.sp)
+                                }
+
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Checkbox(
+                                        checked = isVermifugado.value,
+                                        onCheckedChange = { isVermifugado.value = it }
+                                    )
+                                    Text(text = "vermífugado", fontSize = 18.sp)
+                                }
+
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Checkbox(
+                                        checked = isCastrado.value,
+                                        onCheckedChange = { isCastrado.value = it }
+                                    )
+                                    Text(text = "castrado", fontSize = 18.sp)
+                                }
+                            }
+                        }
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
                             text = "Temperamento",
@@ -334,20 +411,62 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                             color = Color.Black
                         )
                         Spacer( modifier = Modifier .height(5.dp))
-                        OutlinedTextField(
-                            value = idtemperamentoState.value,
-                            onValueChange = {
-                                idtemperamentoState.value = it
-                            },
-                            modifier = Modifier .fillMaxWidth(),
-                            shape = RoundedCornerShape(10.dp),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
-                                focusedBorderColor = Color.DarkGray,
-                                unfocusedBorderColor = Color.Gray,
-
+                        Card (
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(150.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF))
+                        ){
+                            Column (
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ){
+                                val buttonColors = listOf(
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
                                 )
-                        )
+                                val labels = listOf(
+                                    "Gentil", "Bravo", "Calmo",
+                                    "Brincalhao", "Medroso",
+                                    "Carente", "Independente"
+                                )
+                                for (row in 0..2) {
+                                    Row(
+                                        horizontalArrangement = Arrangement.SpaceEvenly,
+                                        modifier = Modifier.fillMaxWidth()
+                                    ){
+                                        for (col in 0..1) {
+                                            val index = row * 2 + col
+                                            if (index < labels.size) {
+                                                val isSelected = buttonColors[index]
+                                                Button(
+                                                    onClick = {
+                                                        isSelected.value = !isSelected.value
+                                                    },
+                                                    shape = RoundedCornerShape(30.dp),
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = if (isSelected.value) Color(
+                                                            0xFFC4ECBA
+                                                        ) else Color(0x0F174202)
+                                                    ),
+                                                    modifier = Modifier
+                                                        .padding(4.dp)
+                                                        .height(45.dp)
+                                                ) {
+                                                    Text(text = labels[index], color = Color.Black)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
@@ -391,29 +510,16 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                                 focusedBorderColor = Color.DarkGray,
                                 unfocusedBorderColor = Color.Gray,
 
-                                )
-                        )
-                        Spacer(modifier = Modifier .height(7.dp))
-                        Text(
-                            text = "Status do Animal",
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 20.sp,
-                            color = Color.Black
-                        )
-                        Spacer( modifier = Modifier .height(5.dp))
-                        OutlinedTextField(
-                            value = idstatusState.value,
-                            onValueChange = {
-                                idstatusState.value = it
-                            },
-                            modifier = Modifier .fillMaxWidth(),
-                            shape = RoundedCornerShape(10.dp),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
-                                focusedBorderColor = Color.DarkGray,
-                                unfocusedBorderColor = Color.Gray,
-
-                                )
+                                ),
+                            trailingIcon = {
+                                IconButton(onClick = {}) {
+                                    Icon(
+                                        imageVector = Icons.Default.KeyboardArrowDown,
+                                        contentDescription = "",
+                                        tint = Color.Black
+                                    )
+                                }
+                            }
                         )
                         Spacer( modifier = Modifier .height(27.dp))
                         Card (
@@ -436,7 +542,12 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                                     idSexo = idsexoState.value.toIntOrNull() ?: 0,
                                     idTemperamento = idtemperamentoState.value.toIntOrNull() ?: 0,
                                     idEspecie =  idespecieState.value.toIntOrNull() ?: 0,
-                                    idSaude = idsaudeState.value.toIntOrNull() ?: 0
+                                    idSaude = listOfNotNull(
+                                        if (isVacinado.value) 1 else null,
+                                        if (isVermifugado.value) 2 else null,
+                                        if (isCastrado.value) 3 else null
+                                    )
+
                                 )
                                 println(body)
 
