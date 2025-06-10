@@ -34,6 +34,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -48,8 +49,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.senai.sp.jandira.foodrecipe.service.RetrofitFactory
 import br.senai.sp.jandira.projetointegrado.R
+import br.senai.sp.jandira.projetointegrado.model.ComportamentoItem
 import br.senai.sp.jandira.projetointegrado.model.IdButtons
 import br.senai.sp.jandira.projetointegrado.model.PetRegister
+import br.senai.sp.jandira.projetointegrado.model.SaudeItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -61,6 +64,11 @@ fun CadastroAnimal(navegacao: NavHostController?) {
     var isVacinado = remember { mutableStateOf(false) }
     var isVermifugado = remember { mutableStateOf(false) }
     var isCastrado = remember { mutableStateOf(false) }
+
+    val vacinadoId = 1
+    val vermifugadoId = 2
+    val castradoId = 3
+
 
     var nameAnimalState = remember {
         mutableStateOf("")
@@ -74,8 +82,11 @@ fun CadastroAnimal(navegacao: NavHostController?) {
     var necessidadeState = remember {
         mutableStateOf("")
     }
-    var idporteState = remember {
+    var idenderecoState = remember {
         mutableStateOf("")
+    }
+    val selectedPorteId = remember {
+        mutableStateOf(0)
     }
     var idstatusState = remember {
         mutableStateOf("")
@@ -83,17 +94,21 @@ fun CadastroAnimal(navegacao: NavHostController?) {
     var idracaState = remember {
         mutableStateOf("")
     }
-    var idsexoState = remember {
-        mutableStateOf("")
+    val selectedSexoId = remember {
+        mutableStateOf(0)
     }
-    var idtemperamentoState = remember {
-        mutableStateOf("")
+    val selectedTemperamentoId = remember {
+        mutableStateOf(0)
     }
-    var idespecieState = remember {
-        mutableStateOf("")
+    val selectedEspecieId = remember {
+        mutableStateOf(0)
     }
-    var idsaudeState = remember {
-        mutableStateOf("")
+    val saudeSelecionada = remember {
+        mutableStateListOf<Int>()
+    }
+
+    val comportamentosSelecionados = remember {
+        mutableStateListOf<Int>()
     }
 
 
@@ -211,52 +226,51 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                             colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF)),
                             border = BorderStroke(1.dp, color = Color(0xFF939393))
                         ){
-                            Column (
+                            val especies = listOf(
+                                Pair("Cachorro", 1),
+                                Pair("Gato", 2),
+                                Pair("Pássaro", 3),
+                                Pair("Outro", 4)
+                            )
+
+                            Column(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .padding(6.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
-                            ){
-                                val buttonColors = listOf(
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                )
-                                val labels = listOf(
-                                    "Cachorro", "Gato",
-                                    "Passaro", "Outro"
-                                )
-                                for (row in 0..2) {
+                            ) {
+                                for (row in 0..1) {
                                     Row(
                                         horizontalArrangement = Arrangement.SpaceEvenly,
                                         modifier = Modifier.fillMaxWidth()
-                                    ){
+                                    ) {
                                         for (col in 0..1) {
                                             val index = row * 2 + col
-                                            if (index < labels.size) {
-                                                val isSelected = buttonColors[index]
+                                            if (index < especies.size) {
+                                                val (label, id) = especies[index]
                                                 Button(
                                                     onClick = {
-                                                        isSelected.value = !isSelected.value
+                                                        selectedEspecieId.value = id
                                                     },
                                                     shape = RoundedCornerShape(30.dp),
                                                     colors = ButtonDefaults.buttonColors(
-                                                        containerColor = if (isSelected.value) Color(
-                                                            0xFFC4ECBA
-                                                        ) else Color(0x0F174202)
+                                                        containerColor = if (selectedEspecieId.value == id)
+                                                            Color(0xFFC4ECBA)
+                                                        else
+                                                            Color(0x0F174202)
                                                     ),
                                                     modifier = Modifier
                                                         .padding(4.dp)
                                                         .height(45.dp)
                                                 ) {
-                                                    Text(text = labels[index], color = Color.Black)
+                                                    Text(text = label, color = Color.Black)
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
+
                         }
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
@@ -278,37 +292,44 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                                     .padding(6.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ){
-                                val buttonColors = listOf(
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
+
+                                val sexo = listOf(
+                                    Pair("Macho", 2),
+                                    Pair("Femea", 3),
                                 )
-                                val labels = listOf(
-                                    "Macho", "Fêmea",
-                                )
-                                for (row in 0..2) {
-                                    Row(
-                                        horizontalArrangement = Arrangement.SpaceEvenly,
-                                        modifier = Modifier.fillMaxWidth()
-                                    ){
-                                        for (col in 0..1) {
-                                            val index = row * 2 + col
-                                            if (index < labels.size) {
-                                                val isSelected = buttonColors[index]
-                                                Button(
-                                                    onClick = {
-                                                        isSelected.value = !isSelected.value
-                                                    },
-                                                    shape = RoundedCornerShape(30.dp),
-                                                    colors = ButtonDefaults.buttonColors(
-                                                        containerColor = if (isSelected.value) Color(
-                                                            0xFFC4ECBA
-                                                        ) else Color(0x0F174202)
-                                                    ),
-                                                    modifier = Modifier
-                                                        .padding(4.dp)
-                                                        .height(45.dp)
-                                                ) {
-                                                    Text(text = labels[index], color = Color.Black)
+
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(3.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    for (row in 0..1) {
+                                        Row(
+                                            horizontalArrangement = Arrangement.SpaceEvenly,
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            for (col in 0..1) {
+                                                val index = row * 2 + col
+                                                if (index < sexo.size) {
+                                                    val (label, id) = sexo[index]
+                                                    Button(
+                                                        onClick = {
+                                                            selectedSexoId.value = id
+                                                        },
+                                                        shape = RoundedCornerShape(30.dp),
+                                                        colors = ButtonDefaults.buttonColors(
+                                                            containerColor = if (selectedSexoId.value == id)
+                                                                Color(0xFFC4ECBA)
+                                                            else
+                                                                Color(0x0F174202)
+                                                        ),
+                                                        modifier = Modifier
+                                                            .padding(4.dp)
+                                                            .height(45.dp)
+                                                    ) {
+                                                        Text(text = label, color = Color.Black)
+                                                    }
                                                 }
                                             }
                                         }
@@ -318,7 +339,7 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                         }
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
-                            text = "necessidade",
+                            text = "Necessidades",
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
                             color = Color.Black
@@ -358,38 +379,44 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                                     .padding(1.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ){
-                                val buttonColors = listOf(
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
+                                val porte = listOf(
+                                    Pair("Grande", 1),
+                                    Pair("Medio", 2),
+                                    Pair("Pequeno", 3),
                                 )
-                                val labels = listOf(
-                                    "Pequeno", "Medio", "Grande"
-                                )
-                                for (row in 0..2) {
-                                    Row(
-                                        horizontalArrangement = Arrangement.SpaceEvenly,
-                                        modifier = Modifier.fillMaxWidth()
-                                    ){
-                                        for (col in 0..1) {
-                                            val index = row * 2 + col
-                                            if (index < labels.size) {
-                                                val isSelected = buttonColors[index]
-                                                Button(
-                                                    onClick = {
-                                                        isSelected.value = !isSelected.value
-                                                    },
-                                                    shape = RoundedCornerShape(30.dp),
-                                                    colors = ButtonDefaults.buttonColors(
-                                                        containerColor = if (isSelected.value) Color(
-                                                            0xFFC4ECBA
-                                                        ) else Color(0x0F174202)
-                                                    ),
-                                                    modifier = Modifier
-                                                        .padding(4.dp)
-                                                        .height(45.dp)
-                                                ) {
-                                                    Text(text = labels[index], color = Color.Black)
+
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(3.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    for (row in 0..1) {
+                                        Row(
+                                            horizontalArrangement = Arrangement.SpaceEvenly,
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            for (col in 0..1) {
+                                                val index = row * 2 + col
+                                                if (index < porte.size) {
+                                                    val (label, id) = porte[index]
+                                                    Button(
+                                                        onClick = {
+                                                            selectedPorteId.value = id
+                                                        },
+                                                        shape = RoundedCornerShape(30.dp),
+                                                        colors = ButtonDefaults.buttonColors(
+                                                            containerColor = if (selectedPorteId.value == id)
+                                                                Color(0xFFC4ECBA)
+                                                            else
+                                                                Color(0x0F174202)
+                                                        ),
+                                                        modifier = Modifier
+                                                            .padding(4.dp)
+                                                            .height(45.dp)
+                                                    ) {
+                                                        Text(text = label, color = Color.Black)
+                                                    }
                                                 }
                                             }
                                         }
@@ -428,9 +455,9 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(5.dp))
                         OutlinedTextField(
-                            value = dateState.value,
+                            value = idenderecoState.value,
                             onValueChange = {
-                                dateState.value = it
+                                idenderecoState.value = it
                             },
                             modifier = Modifier .fillMaxWidth(),
                             shape = RoundedCornerShape(10.dp),
@@ -443,6 +470,75 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                         )
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
+                            text = "Comportamento",
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 20.sp,
+                            color = Color.Black
+                        )
+                        Spacer( modifier = Modifier .height(5.dp))
+                        Card (
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF)),
+                            border = BorderStroke(1.dp, color = Color(0xFF939393))
+                        ){
+                            Column (
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(1.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ){
+
+                                val buttonColors = listOf(
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+
+                                    )
+                                val labels = listOf(
+                                    "Gentil", "Brincalhao",
+                                    "Medroso", "Independente"
+                                )
+                                for (row in 0..2) {
+                                    Row(
+                                        horizontalArrangement = Arrangement.SpaceEvenly,
+                                        modifier = Modifier.fillMaxWidth()
+                                    ){
+                                        for (col in 0..1) {
+                                            val index = row * 2 + col
+                                            if (index < labels.size) {
+                                                val isSelected = buttonColors[index]
+                                                Button(
+                                                    onClick = {
+                                                        val idComportamento = index + 1 // Supondo que 1 = Gentil, 2 = Brincalhão, etc.
+                                                        if (comportamentosSelecionados.contains(idComportamento)) {
+                                                            comportamentosSelecionados.remove(idComportamento)
+                                                        } else {
+                                                            comportamentosSelecionados.add(idComportamento)
+                                                        }
+                                                        isSelected.value = !isSelected.value
+                                                    },
+                                                    shape = RoundedCornerShape(30.dp),
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = if (isSelected.value) Color(
+                                                            0xFFC4ECBA
+                                                        ) else Color(0x0F174202)
+                                                    ),
+                                                    modifier = Modifier
+                                                        .padding(4.dp)
+                                                        .height(45.dp)
+                                                ) {
+                                                    Text(text = labels[index], color = Color.Black)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier .height(7.dp))
+                        Text(
                             text = stringResource(R.string.saude),
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 20.sp,
@@ -453,7 +549,8 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(150.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF))
+                            colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF)),
+                            border = BorderStroke(1.dp, color = Color(0xFF939393))
                         ){
                             Column(
 
@@ -461,24 +558,36 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Checkbox(
                                         checked = isVacinado.value,
-                                        onCheckedChange = { isVacinado.value = it }
+                                        onCheckedChange = {
+                                            isVacinado.value = it
+                                            if (it) saudeSelecionada.add(vacinadoId) else saudeSelecionada.remove(vacinadoId)
+                                        }
                                     )
+
                                     Text(text = "vacinado", fontSize = 18.sp)
                                 }
 
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Checkbox(
                                         checked = isVermifugado.value,
-                                        onCheckedChange = { isVermifugado.value = it }
+                                        onCheckedChange = {
+                                            isVermifugado.value = it
+                                            if (it) saudeSelecionada.add(vermifugadoId) else saudeSelecionada.remove(vermifugadoId)
+                                        }
                                     )
+
                                     Text(text = "vermífugado", fontSize = 18.sp)
                                 }
 
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Checkbox(
                                         checked = isCastrado.value,
-                                        onCheckedChange = { isCastrado.value = it }
+                                        onCheckedChange = {
+                                            isCastrado.value = it
+                                            if (it) saudeSelecionada.add(castradoId) else saudeSelecionada.remove(castradoId)
+                                        }
                                     )
+
                                     Text(text = "castrado", fontSize = 18.sp)
                                 }
                             }
@@ -494,52 +603,54 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                         Card (
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(150.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF))
+                                .padding(3.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF)),
+                            border = BorderStroke(1.dp, color = Color(0xFF939393))
                         ){
                             Column (
                                 modifier = Modifier
-                                    .fillMaxSize(),
+                                    .fillMaxSize()
+                                    .padding(5.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ){
-                                val buttonColors = listOf(
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
-                                    remember { mutableStateOf(false) },
+                                val temperamento = listOf(
+                                    Pair("Bravo", 2),
+                                    Pair("Calmo", 1),
+                                    Pair("Alegre", 3),
                                 )
-                                val labels = listOf(
-                                    "Gentil", "Bravo", "Calmo",
-                                    "Brincalhao", "Medroso",
-                                    "Carente", "Independente"
-                                )
-                                for (row in 0..2) {
-                                    Row(
-                                        horizontalArrangement = Arrangement.SpaceEvenly,
-                                        modifier = Modifier.fillMaxWidth()
-                                    ){
-                                        for (col in 0..1) {
-                                            val index = row * 2 + col
-                                            if (index < labels.size) {
-                                                val isSelected = buttonColors[index]
-                                                Button(
-                                                    onClick = {
-                                                        isSelected.value = !isSelected.value
-                                                    },
-                                                    shape = RoundedCornerShape(30.dp),
-                                                    colors = ButtonDefaults.buttonColors(
-                                                        containerColor = if (isSelected.value) Color(
-                                                            0xFFC4ECBA
-                                                        ) else Color(0x0F174202)
-                                                    ),
-                                                    modifier = Modifier
-                                                        .padding(4.dp)
-                                                        .height(45.dp)
-                                                ) {
-                                                    Text(text = labels[index], color = Color.Black)
+
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(3.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    for (row in 0..1) {
+                                        Row(
+                                            horizontalArrangement = Arrangement.SpaceEvenly,
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            for (col in 0..1) {
+                                                val index = row * 2 + col
+                                                if (index < temperamento.size) {
+                                                    val (label, id) = temperamento[index]
+                                                    Button(
+                                                        onClick = {
+                                                            selectedTemperamentoId.value = id
+                                                        },
+                                                        shape = RoundedCornerShape(30.dp),
+                                                        colors = ButtonDefaults.buttonColors(
+                                                            containerColor = if (selectedTemperamentoId.value == id)
+                                                                Color(0xFFC4ECBA)
+                                                            else
+                                                                Color(0x0F174202)
+                                                        ),
+                                                        modifier = Modifier
+                                                            .padding(4.dp)
+                                                            .height(45.dp)
+                                                    ) {
+                                                        Text(text = label, color = Color.Black)
+                                                    }
                                                 }
                                             }
                                         }
@@ -616,17 +727,18 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                                     dataNascimento = dateState.value,
                                     foto = pictureState.value,
                                     necessidades = necessidadeState.value,
-                                    idPorte = idporteState.value.toIntOrNull() ?: 0,
+                                    idEndereco = idenderecoState.value.toIntOrNull() ?: 0,
+                                    idPorte = selectedPorteId.value,
                                     idStatus = idstatusState.value.toIntOrNull() ?: 0,
                                     idRaca = idracaState.value.toIntOrNull() ?: 0,
-                                    idSexo = idsexoState.value.toIntOrNull() ?: 0,
-                                    idTemperamento = idtemperamentoState.value.toIntOrNull() ?: 0,
-                                    idEspecie =  idespecieState.value.toIntOrNull() ?: 0,
-                                    idSaude = listOfNotNull(
-                                        if (isVacinado.value) 1 else null,
-                                        if (isVermifugado.value) 2 else null,
-                                        if (isCastrado.value) 3 else null
-                                    )
+                                    idSexo = selectedSexoId.value,
+                                    idTemperamento = selectedTemperamentoId.value,
+                                    idEspecie = selectedEspecieId.value,
+                                    comportamento = comportamentosSelecionados.map { ComportamentoItem(it) },
+                                    saude = saudeSelecionada.map { SaudeItem(it) },
+
+
+
 
                                 )
                                 println(body)
@@ -679,3 +791,10 @@ fun CadastroAnimal(navegacao: NavHostController?) {
 private fun CadastroAnimalPreview() {
     CadastroAnimal(navegacao = null)
 }
+
+val especies = listOf(
+    Pair("Grande", 1),
+    Pair("Medio", 2),
+    Pair("Pequeno", 3),
+)
+

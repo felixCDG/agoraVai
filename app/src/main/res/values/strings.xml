@@ -15,7 +15,7 @@
     <string name="palavrachaveT">Palavra-Chave</string>
     <string name="idade">Data de Nascimento*</string>
     <string name="cpf">CPF*</string>
-    <string name="contato">Contato*</string>
+    <string name="contato">Telefone*</string>
     <string name="contatoreserva">Contato reserva*</string>
     <string name="estado">Estado*</string>
     <string name="cep">CEP*</string>
