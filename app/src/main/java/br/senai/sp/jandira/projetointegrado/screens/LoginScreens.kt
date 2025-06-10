@@ -208,7 +208,7 @@ fun LoginScreens(navegacao: NavHostController?) {
                                         if (response.isSuccessful) {
                                             // Sucesso no cadastro
                                             Log.i("API", "Usuario logado com sucesso ${response.body()}")
-                                            navegacao?.navigate("home")
+                                            navegacao?.navigate("cadastro")
                                             // Redireciona para tela de login
                                         } else {
                                             // Erro no cadastro (ex: e-mail já existente, campos inválidos, etc.)

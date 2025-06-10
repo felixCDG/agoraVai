@@ -205,29 +205,59 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                             color = Color.Black
                         )
                         Spacer( modifier = Modifier .height(5.dp))
-                        OutlinedTextField(
-                            value = idespecieState.value,
-                            onValueChange = {
-                                idespecieState.value = it
-                            },
-                            modifier = Modifier .fillMaxWidth(),
-                            shape = RoundedCornerShape(10.dp),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
-                                focusedBorderColor = Color.DarkGray,
-                                unfocusedBorderColor = Color.Gray,
-
-                                ),
-                            trailingIcon = {
-                                IconButton(onClick = {}) {
-                                    Icon(
-                                        imageVector = Icons.Default.KeyboardArrowDown,
-                                        contentDescription = "",
-                                        tint = Color.Black
-                                    )
+                        Card (
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF)),
+                            border = BorderStroke(1.dp, color = Color(0xFF939393))
+                        ){
+                            Column (
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(6.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ){
+                                val buttonColors = listOf(
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                )
+                                val labels = listOf(
+                                    "Cachorro", "Gato",
+                                    "Passaro", "Outro"
+                                )
+                                for (row in 0..2) {
+                                    Row(
+                                        horizontalArrangement = Arrangement.SpaceEvenly,
+                                        modifier = Modifier.fillMaxWidth()
+                                    ){
+                                        for (col in 0..1) {
+                                            val index = row * 2 + col
+                                            if (index < labels.size) {
+                                                val isSelected = buttonColors[index]
+                                                Button(
+                                                    onClick = {
+                                                        isSelected.value = !isSelected.value
+                                                    },
+                                                    shape = RoundedCornerShape(30.dp),
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = if (isSelected.value) Color(
+                                                            0xFFC4ECBA
+                                                        ) else Color(0x0F174202)
+                                                    ),
+                                                    modifier = Modifier
+                                                        .padding(4.dp)
+                                                        .height(45.dp)
+                                                ) {
+                                                    Text(text = labels[index], color = Color.Black)
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
-                        )
+                        }
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
                             text = stringResource(R.string.sexo),
@@ -253,7 +283,7 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                                     remember { mutableStateOf(false) },
                                 )
                                 val labels = listOf(
-                                    "Macho", "Femia",
+                                    "Macho", "Fêmea",
                                 )
                                 for (row in 0..2) {
                                     Row(
@@ -316,29 +346,57 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                             color = Color.Black
                         )
                         Spacer( modifier = Modifier .height(5.dp))
-                        OutlinedTextField(
-                            value = idporteState.value,
-                            onValueChange = {
-                                idporteState.value = it
-                            },
-                            modifier = Modifier .fillMaxWidth(),
-                            shape = RoundedCornerShape(10.dp),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
-                                focusedBorderColor = Color.DarkGray,
-                                unfocusedBorderColor = Color.Gray,
-
-                                ),
-                            trailingIcon = {
-                                IconButton(onClick = {}) {
-                                    Icon(
-                                        imageVector = Icons.Default.KeyboardArrowDown,
-                                        contentDescription = "",
-                                        tint = Color.Black
-                                    )
+                        Card (
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xffA7CFAF)),
+                            border = BorderStroke(1.dp, color = Color(0xFF939393))
+                        ){
+                            Column (
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(1.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ){
+                                val buttonColors = listOf(
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                    remember { mutableStateOf(false) },
+                                )
+                                val labels = listOf(
+                                    "Pequeno", "Medio", "Grande"
+                                )
+                                for (row in 0..2) {
+                                    Row(
+                                        horizontalArrangement = Arrangement.SpaceEvenly,
+                                        modifier = Modifier.fillMaxWidth()
+                                    ){
+                                        for (col in 0..1) {
+                                            val index = row * 2 + col
+                                            if (index < labels.size) {
+                                                val isSelected = buttonColors[index]
+                                                Button(
+                                                    onClick = {
+                                                        isSelected.value = !isSelected.value
+                                                    },
+                                                    shape = RoundedCornerShape(30.dp),
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = if (isSelected.value) Color(
+                                                            0xFFC4ECBA
+                                                        ) else Color(0x0F174202)
+                                                    ),
+                                                    modifier = Modifier
+                                                        .padding(4.dp)
+                                                        .height(45.dp)
+                                                ) {
+                                                    Text(text = labels[index], color = Color.Black)
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
-                        )
+                        }
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
                             text = stringResource(R.string.idade),
@@ -582,8 +640,10 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                                         if (response.isSuccessful){
 
                                             Log.i("API", "Pet cadastrado com sucesso ${response.body()}")
+                                            navegacao?.navigate("home")
                                         }else{
                                             Log.e("API", "Erro ao cadastrar: ${response.code()}")
+                                            navegacao?.navigate("home")
                                         }
                                     }
 

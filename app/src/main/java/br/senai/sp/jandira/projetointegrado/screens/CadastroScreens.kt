@@ -284,20 +284,13 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(3.dp))
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = idaddressState.value,
+                            onValueChange = {
+                                idaddressState.value = it
+                            },
                             modifier = Modifier .fillMaxWidth(),
                             colors = TextFieldDefaults.colors(),
                             shape = RoundedCornerShape(10.dp),
-                            trailingIcon = {
-                                IconButton(onClick = {}) {
-                                    Icon(
-                                        imageVector = Icons.Default.KeyboardArrowDown,
-                                        contentDescription = "",
-                                        tint = Color.Black
-                                    )
-                                }
-                            }
                         )
                         Spacer( modifier = Modifier .height(7.dp))
                         Text(
@@ -417,9 +410,11 @@ fun CadastroScreen(navegacao: NavHostController?) {
                                             // Sucesso no cadastro
                                             Log.i("API", "Usuario cadastrado com sucesso ${response.body()}")
                                              // Redireciona para tela de login
+                                            navegacao?.navigate("cadastropet")
                                             } else {
                                                 // Erro no cadastro (ex: e-mail já existente, campos inválidos, etc.)
                                                  Log.e("API", "Erro ao cadastrar: ${response.code()}")
+                                            navegacao?.navigate("cadastropet")
                                             }
                                         }
 
