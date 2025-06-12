@@ -36,4 +36,9 @@ class RetrofitFactory {
             .create(PetsService::class.java)
     }
 
+    fun getPetPerfilService() : PetsService{
+        return RETROFIT_FACTORY
+            .create(PetsService::class.java)
+    }
+
 }
