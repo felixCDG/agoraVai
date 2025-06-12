@@ -27,6 +27,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -58,6 +59,10 @@ import kotlin.math.log
 @Composable
 fun CadastroScreen(navegacao: NavHostController?) {
 
+    var isQD = remember { mutableStateOf(false) }
+    var isQA = remember { mutableStateOf(false) }
+    var isFONG = remember { mutableStateOf(false) }
+
 
     var nameState = remember {
         mutableStateOf("")
@@ -81,6 +86,9 @@ fun CadastroScreen(navegacao: NavHostController?) {
         mutableStateOf("")
     }
     var contatoState = remember {
+        mutableStateOf("")
+    }
+    var partongState = remember {
         mutableStateOf("")
     }
 
@@ -303,61 +311,44 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         Card (
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(80.dp),
+                                .height(130.dp),
                             border = BorderStroke( width = 1.dp, Color.Black)
                         ){
-                            Column (
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(7.dp)
-                            ){
-                                Row (
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                ){
-                                    Icon(
-                                        imageVector = Icons.Default.CheckCircle,
-                                        contentDescription = ""
-                                    )
-                                    Text(
-                                        text = stringResource(R.string.qadotar),
-                                        fontSize = 15.sp,
-                                        modifier = Modifier
-                                            .padding(1.dp)
+                            Column(
 
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Checkbox(
+                                        checked = isQA.value,
+                                        onCheckedChange = {
+                                            isQA.value = it
+                                        }
                                     )
-                                    Spacer( modifier = Modifier .padding(horizontal = 5.dp))
-                                    Icon(
-                                        imageVector = Icons.Default.CheckCircle,
-                                        contentDescription = ""
-                                    )
-                                    Text(
-                                        text = stringResource(R.string.qdivulga),
-                                        fontSize = 15.sp,
-                                        modifier = Modifier
-                                            .padding(1.dp)
 
-                                    )
+                                    Text(text = "Quero Adotar", fontSize = 18.sp)
                                 }
 
-                                Spacer( modifier = Modifier .height(6.dp))
-                                Row (
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                ){
-                                    Icon(
-                                        imageVector = Icons.Default.CheckCircle,
-                                        contentDescription = ""
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Checkbox(
+                                        checked = isQD.value,
+                                        onCheckedChange = {
+                                            isQD.value = it
+                                        }
                                     )
-                                    Text(
-                                        text = stringResource(R.string.fazpartedeong),
-                                        fontSize = 15.sp,
-                                        modifier = Modifier
-                                            .padding(1.dp)
 
-                                    )
+                                    Text(text = "Quero Divulgar", fontSize = 18.sp)
                                 }
 
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Checkbox(
+                                        checked = isFONG.value,
+                                        onCheckedChange = {
+                                            isFONG.value = it
+                                        }
+                                    )
+
+                                    Text(text = "Faco parte de uma ONG", fontSize = 18.sp)
+                                }
                             }
                         }
 
@@ -370,8 +361,10 @@ fun CadastroScreen(navegacao: NavHostController?) {
                         )
                         Spacer( modifier = Modifier .height(3.dp))
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = {},
+                            value = partongState.value,
+                            onValueChange = {
+                                partongState.value = it
+                            },
                             modifier = Modifier .fillMaxWidth(),
                             colors = TextFieldDefaults.colors(),
                             shape = RoundedCornerShape(10.dp),
@@ -382,7 +375,7 @@ fun CadastroScreen(navegacao: NavHostController?) {
                             modifier = Modifier
                                 .height(3.dp)
                                 .fillMaxWidth(),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xff2B5235))
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFF9B5D27))
                         ){  }
                         Spacer( modifier = Modifier .height(23.dp))
                         Button(

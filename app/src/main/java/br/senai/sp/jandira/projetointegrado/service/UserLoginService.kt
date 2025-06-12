@@ -9,7 +9,7 @@ import retrofit2.http.POST
 interface UserLoginService {
 
     @Headers("Content-Type: application/json")
-    @POST("usuario")
+    @POST("login")
     fun loginUser(@Body user: UserLogin): retrofit2.Call<UserLogin>
 
 }
