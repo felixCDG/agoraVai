@@ -18,6 +18,7 @@ import br.senai.sp.jandira.projetointegrado.screens.HomeScreen
 import br.senai.sp.jandira.projetointegrado.screens.LoginScreens
 import br.senai.sp.jandira.projetointegrado.screens.NovaSenhaScreen
 import br.senai.sp.jandira.projetointegrado.screens.PalavraChaveScreen
+import br.senai.sp.jandira.projetointegrado.screens.PerfilPet
 import br.senai.sp.jandira.projetointegrado.ui.theme.ProjetoIntegradoTheme
 
 class MainActivity : ComponentActivity() {
@@ -38,6 +39,7 @@ class MainActivity : ComponentActivity() {
                 composable(route = "nvsenha"){ NovaSenhaScreen(navegacao) }
                 composable(route = "cadastropet"){ CadastroAnimal(navegacao) }
                 composable(route = "home"){ HomeScreen(navegacao) }
+                composable(route = "perfilpet"){ PerfilPet(navegacao) }
             }
 
         }
