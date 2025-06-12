@@ -1,9 +1,16 @@
 package br.senai.sp.jandira.projetointegrado.screens
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +26,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.PersonPin
@@ -34,12 +42,15 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -47,12 +58,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import br.senai.sp.jandira.foodrecipe.service.AzureUploadService.uploadImageToAzure
 import br.senai.sp.jandira.foodrecipe.service.RetrofitFactory
 import br.senai.sp.jandira.projetointegrado.R
 import br.senai.sp.jandira.projetointegrado.model.ComportamentoItem
 import br.senai.sp.jandira.projetointegrado.model.IdButtons
 import br.senai.sp.jandira.projetointegrado.model.PetRegister
 import br.senai.sp.jandira.projetointegrado.model.SaudeItem
+import coil.compose.AsyncImage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -68,6 +85,20 @@ fun CadastroAnimal(navegacao: NavHostController?) {
     val vacinadoId = 1
     val vermifugadoId = 2
     val castradoId = 3
+
+    // 1) Estado para armazenar o URI da imagem escolhida
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
+
+    // 2) Estado para armazenar a URL retornada pelo Azure
+    var imageUrl by remember { mutableStateOf<String?>(null) }
+
+    // 3) Launcher para pegar o arquivo via Galeria
+    val pickImageLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            imageUri = uri
+        }
+
+    val context = LocalContext.current
 
 
     var nameAnimalState = remember {
@@ -669,18 +700,48 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                         Spacer( modifier = Modifier .height(5.dp))
                         OutlinedTextField(
                             value = pictureState.value,
-                            onValueChange = {
-                                pictureState.value = it
-                            },
-                            modifier = Modifier .fillMaxWidth(),
+                            onValueChange = { },
                             shape = RoundedCornerShape(10.dp),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
                                 containerColor = Color(0xffA7CFAF), // 🔁 fundo branco
                                 focusedBorderColor = Color.DarkGray,
                                 unfocusedBorderColor = Color.Gray,
 
+                                ),
+                            label = {
+                                Text(
+                                    text = "Imagem",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    color = Color(0xFF000000)
                                 )
+                            },
+                            leadingIcon = {
+                                Icon(imageVector = Icons.Default.Image,
+                                    contentDescription = "",
+                                    tint = Color(0xFF000000),
+                                    modifier = Modifier
+                                        .padding(start = 10.dp)
+                                        .size(40.dp)
+                                    )
+                            },
+                            enabled = false,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    pickImageLauncher.launch("image/*")
+                                }
                         )
+                        imageUri?.let { uri ->
+                            AsyncImage(
+                                model = uri,
+                                contentDescription = "Imagem Selecionada",
+                                modifier = Modifier
+                                    .padding(vertical = 10.dp, horizontal = 15.dp)
+                                    .fillMaxWidth()
+                                    .border(2.dp, Color(0x80241508))
+                            )
+                        }
                         Spacer(modifier = Modifier .height(7.dp))
                         Text(
                             text = "Raça do Animal",
@@ -722,49 +783,70 @@ fun CadastroAnimal(navegacao: NavHostController?) {
                         Spacer( modifier = Modifier .height(23.dp))
                         Button(
                             onClick = {
-                                val body = PetRegister(
-                                    nome = nameAnimalState.value,
-                                    dataNascimento = dateState.value,
-                                    foto = pictureState.value,
-                                    necessidades = necessidadeState.value,
-                                    idEndereco = idenderecoState.value.toIntOrNull() ?: 0,
-                                    idPorte = selectedPorteId.value,
-                                    idStatus = idstatusState.value.toIntOrNull() ?: 0,
-                                    idRaca = idracaState.value.toIntOrNull() ?: 0,
-                                    idSexo = selectedSexoId.value,
-                                    idTemperamento = selectedTemperamentoId.value,
-                                    idEspecie = selectedEspecieId.value,
-                                    comportamento = comportamentosSelecionados.map { ComportamentoItem(it) },
-                                    saude = saudeSelecionada.map { SaudeItem(it) },
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    try {
+                                        // 2) Chama a sua função de upload e aguarda a URL
+                                        val urlRetornada = uploadImageToAzure(context, imageUri!!)
+
+                                        withContext(Dispatchers.Main) {
+                                            pictureState.value = urlRetornada
+                                        }
+
+                                        val body = PetRegister(
+                                            nome = nameAnimalState.value,
+                                            dataNascimento = dateState.value,
+                                            foto = pictureState.value,
+                                            necessidades = necessidadeState.value,
+                                            idEndereco = idenderecoState.value.toIntOrNull() ?: 0,
+                                            idPorte = selectedPorteId.value,
+                                            idStatus = idstatusState.value.toIntOrNull() ?: 0,
+                                            idRaca = idracaState.value.toIntOrNull() ?: 0,
+                                            idSexo = selectedSexoId.value,
+                                            idTemperamento = selectedTemperamentoId.value,
+                                            idEspecie = selectedEspecieId.value,
+                                            comportamento = comportamentosSelecionados.map { ComportamentoItem(it) },
+                                            saude = saudeSelecionada.map { SaudeItem(it) },
 
 
 
 
-                                )
-                                println(body)
+                                            )
+                                        println(body)
 
-                                val sendPet = RetrofitFactory()
-                                    .getPetRegisterService()
-                                    .cadastroPet(body)
+                                        val sendPet = RetrofitFactory()
+                                            .getPetRegisterService()
+                                            .cadastroPet(body)
 
-                                sendPet.enqueue(object : Callback<PetRegister>{
-                                    override fun onResponse (call: Call<PetRegister>, response: Response<PetRegister>){
-                                        if (response.isSuccessful){
+                                        sendPet.enqueue(object : Callback<PetRegister>{
+                                            override fun onResponse (call: Call<PetRegister>, response: Response<PetRegister>){
+                                                if (response.isSuccessful){
 
-                                            Log.i("API", "Pet cadastrado com sucesso ${response.body()}")
-                                            navegacao?.navigate("home")
-                                        }else{
-                                            Log.e("API", "Erro ao cadastrar: ${response.code()}")
-                                            navegacao?.navigate("home")
+                                                    Log.i("API", "Pet cadastrado com sucesso ${response.body()}")
+                                                    navegacao?.navigate("home")
+                                                }else{
+                                                    Log.e("API", "Erro ao cadastrar: ${response.code()}")
+                                                    navegacao?.navigate("home")
+                                                }
+                                            }
+
+                                            override  fun onFailure(call: Call<PetRegister>, t: Throwable){
+                                                Log.e("API", "Falha na requisição: ${t.message}")
+                                            }
+
+                                        })
+                                        
+                                        // 3) Volta na Main e guarda a URL num estado para usar depois
+                                        withContext(Dispatchers.Main) {
+                                            imageUrl = urlRetornada
+                                        }
+                                    } catch (e: Exception) {
+                                        Log.e("ExemploEnvio", "Falha no upload: ${e.message}")
+                                        withContext(Dispatchers.Main) {
+                                            Toast.makeText(context, "Erro no upload", Toast.LENGTH_SHORT).show()
                                         }
                                     }
-
-                                    override  fun onFailure(call: Call<PetRegister>, t: Throwable){
-                                        Log.e("API", "Falha na requisição: ${t.message}")
-                                    }
-
-                                })
-
+                                }
+                                
                             },
                             colors = ButtonDefaults.buttonColors(Color(0xFF9B5D27)),
                             modifier = Modifier
@@ -797,4 +879,5 @@ val especies = listOf(
     Pair("Medio", 2),
     Pair("Pequeno", 3),
 )
+
 
